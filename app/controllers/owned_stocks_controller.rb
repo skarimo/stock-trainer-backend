@@ -1,0 +1,2 @@
+class OwnedStocksController < ApplicationController
+end
