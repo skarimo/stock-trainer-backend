@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 2018_10_31_155452) do
   create_table "owned_stocks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "stock_id"
-    t.integer "owned_shares"
-    t.integer "pending_buy_shares"
-    t.decimal "buy_price", precision: 40, scale: 4
+    t.integer "owned_shares", default: 0
+    t.integer "pending_buy_shares", default: 0
+    t.decimal "buy_price", precision: 40, scale: 4, default: "0.0"
     t.integer "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -29,9 +29,9 @@ ActiveRecord::Schema.define(version: 2018_10_31_155452) do
   create_table "sold_stocks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "stock_id"
-    t.integer "sold_shares"
-    t.integer "pending_sale_shares"
-    t.decimal "sale_price", precision: 40, scale: 4
+    t.integer "sold_shares", default: 0
+    t.integer "pending_sale_shares", default: 0
+    t.decimal "sale_price", precision: 40, scale: 4, default: "0.0"
     t.integer "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
