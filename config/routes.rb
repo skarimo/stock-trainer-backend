@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post 'auth/register', to: 'users#register'
 
   post 'buy_stock', to: 'owned_stocks#buy_stock'
+  post 'sell_stock', to: 'owned_stocks#sell_stock'
 
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
