@@ -68,7 +68,7 @@ private
 
 
   def user_params
-    params.permit(:username, :email, :password, :first_name, :last_name, :category_id)
+    params.permit(:username, :email, :password, :first_name, :last_name, :category_id, :account_balance)
   end
 
   def bill_share_params

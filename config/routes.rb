@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   post 'buy_stock', to: 'owned_stocks#buy_stock'
   post 'sell_stock', to: 'owned_stocks#sell_stock'
+  post 'add_watchlist', to: 'watchlists#add_watchlist'
+  post 'remove_watchlist', to: 'watchlists#remove_watchlist'
 
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
