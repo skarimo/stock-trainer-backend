@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 skip_before_action :authenticate_request, only: %i[login register]
 
   def login
-    authenticate(params["email"], params["password"])
+    authenticate(params["username"], params["password"])
   end
 
   def show
@@ -10,9 +10,22 @@ skip_before_action :authenticate_request, only: %i[login register]
     render json: @user
   end
 
+  def add_balance
+    @user = User.find(params[:user_id])
+    @new_account_balance = @user.account_balance.to_f + params[:deposit_amount].to_f
+    @user.update(account_balance: @new_account_balance)
+    render json: {"account_balance": @user.account_balance}
+  end
+
   def register
     @user = User.create(user_params)
    if @user.save
+    @user.owned_stocks.create(stock_id: 331, owned_shares: 10, status_id: 1)
+    @user.owned_stocks.create(stock_id: 7892, owned_shares: 10, status_id: 1)
+    @user.owned_stocks.create(stock_id: 5514, owned_shares: 10, status_id: 1)
+    @user.watchlists.create(stock_id: 381)
+    @user.watchlists.create(stock_id: 3439)
+    @user.watchlists.create(stock_id: 3438)
     response = { message: 'User created successfully'}
     render json: response, status: :created
    else
@@ -32,8 +45,8 @@ private
 # user: {account_balance: @user.account_balance, email: @user.email, first_name: @user.first_name, id: @user.id, last_name: @user.last_name, owned_stocks: @user.owned_stocks, username: @user.username, watchlists: @user.watchlists}
 
 
-  def authenticate(email, password)
-    command = AuthenticateUser.call(email, password)
+  def authenticate(username, password)
+    command = AuthenticateUser.call(username, password)
     if command.success?
       @user = User.find(JsonWebToken.decode(command.result)["user_id"])
       render json: {
