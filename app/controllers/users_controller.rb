@@ -33,6 +33,13 @@ skip_before_action :authenticate_request, only: %i[login register]
    end
   end
 
+  def update_user_stocks
+    @user = User.find(params[:id])
+    @owned_stock = @user.owned_stocks
+    @sold_stocks = @user.sold_stocks
+    render json: {"owned_stocks": @owned_stock, "sold_stocks": @sold_stocks}
+  end
+
   def authorize_token
     @user_id = JsonWebToken.decode(request.headers["Authorization"])["user_id"]
     @user = User.find(@user_id)

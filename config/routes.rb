@@ -20,8 +20,11 @@ Rails.application.routes.draw do
   post 'add_watchlist', to: 'watchlists#add_watchlist'
   post 'remove_watchlist', to: 'watchlists#remove_watchlist'
 
+  delete 'sold_stocks/:id', to: 'sold_stocks#destroy'
+
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
+  get 'update_user_stocks/:id', to: 'users#update_user_stocks'
 
   # /api/v1/stocks/search
   # post '/api/v1/stocks/search', to: 'stocks#search_stock'

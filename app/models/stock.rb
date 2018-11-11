@@ -15,7 +15,6 @@ class Stock < ApplicationRecord
     return liveData
   end
 
-
 end
 
 
