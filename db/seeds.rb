@@ -20,13 +20,14 @@ parsed_data = JSON.parse(res.body)
 
 Status.create(id: 1, name: "COMPLETED")
 Status.create(id: 2, name: "PENDING")
+Status.create(id: 3, name: "CANCELED")
 
 User.create(first_name: "Mike", last_name: "Stance", username: "123", email: "123", account_balance: 100.00, password: "123")
 
-OwnedStock.create(user_id: 1, stock_id: 10, owned_shares: 200, pending_buy_shares: 0, buy_price: 20.33, status_id: 1)
-OwnedStock.create(user_id: 1, stock_id: 15, owned_shares: 100, pending_buy_shares: 0, buy_price: 10.33, status_id: 1)
-OwnedStock.create(user_id: 1, stock_id: 20, owned_shares: 150, pending_buy_shares: 0, buy_price: 5, status_id: 1)
-OwnedStock.create(user_id: 1, stock_id: 30, owned_shares: 200, pending_buy_shares: 0, buy_price: 100, status_id: 1)
+# OwnedStockShare.create(user_id: 1, stock_id: 10, owned_shares: 200)
+# OwnedStockShare.create(user_id: 1, stock_id: 15, owned_shares: 100)
+# OwnedStockShare.create(user_id: 1, stock_id: 20, owned_shares: 150)
+# OwnedStockShare.create(user_id: 1, stock_id: 30, owned_shares: 200)
 
 
 # SoldStock.create(user_id: 1, stock_id: 150, sold_shares: 20, pending_sale_shares: 36, sale_price: 100, status_id: 2)

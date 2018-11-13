@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_155452) do
+ActiveRecord::Schema.define(version: 2018_11_12_001827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "owned_stocks", force: :cascade do |t|
+  create_table "owned_stock_shares", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "stock_id"
+    t.integer "owned_shares", default: 0
+    t.decimal "avg_buy_price", precision: 40, scale: 4, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "purchased_stocks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "stock_id"
     t.integer "owned_shares", default: 0
@@ -33,6 +42,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_155452) do
     t.integer "pending_sale_shares", default: 0
     t.decimal "sale_price", precision: 40, scale: 4, default: "0.0"
     t.integer "status_id"
+    t.string "threads", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

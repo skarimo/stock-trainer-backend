@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :owned_stock_shares
   # resources :statuses
   # resources :sold_stocks
   # resources :watchlists
-  # resources :owned_stocks
+  # resources :purchased_stocks
   namespace :api do
     namespace :v1 do
         post '/search', to: 'stocks#search_stock'
@@ -15,16 +16,18 @@ Rails.application.routes.draw do
   post 'auth/register', to: 'users#register'
   post 'add_balance', to: 'users#add_balance'
 
-  post 'buy_stock', to: 'owned_stocks#buy_stock'
-  post 'sell_stock', to: 'owned_stocks#sell_stock'
+  post 'buy_stock', to: 'purchased_stocks#buy_stock'
+  post 'sell_stock', to: 'sold_stocks#sell_stock'
   post 'add_watchlist', to: 'watchlists#add_watchlist'
   post 'remove_watchlist', to: 'watchlists#remove_watchlist'
 
-  delete 'sold_stocks/:id', to: 'sold_stocks#destroy'
+  post 'cancel_sale/:id', to: 'sold_stocks#cancel_sale'
+  post 'cancel_purchase/:id', to: 'purchased_stocks#cancel_purchase'
 
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
   get 'update_user_stocks/:id', to: 'users#update_user_stocks'
+  get 'update_owned/:id', to: 'users#update_owned'
 
   # /api/v1/stocks/search
   # post '/api/v1/stocks/search', to: 'stocks#search_stock'

@@ -24,39 +24,45 @@ class SoldStock < ApplicationRecord
   end
 
 
-  def sell(owned_stock_card_id, volume, stock_current_price, offered_price, shares_to_sell)
+  def sell(purchased_stocks_card_id, volume, stock_current_price, offered_price, shares_to_sell)
     @random_sleep_time = self.sleep_time_calculator(volume, stock_current_price, offered_price)
-    owned_stock_card = OwnedStock.find(owned_stock_card_id)
-    # if owned_stock_card.owned_shares == 0 && owned_shares.pending_buy_shares == 0
-    #   owned_stock_card.destroy
-    # end
-    self.update(sale_price: offered_price)
-
-    x = Thread.start{
+    @owned_stock_share = OwnedStockShare.find_or_initialize_by(user_id: self.user.id, stock_id: self.stock.id)
+    self.update(sale_price: offered_price.to_f)
+      x = Thread.new {
         while self.pending_sale_shares != 0
-          if @random_sleep_time > 1
-            rand_time=rand(1..@random_sleep_time.to_f)
-          else
-            rand_time = @random_sleep_time
-          end
+            if @random_sleep_time > 1
+              rand_time=rand(1..@random_sleep_time.to_f)
+            else
+              rand_time = @random_sleep_time
+            end
 
           sleep(rand_time)
+          sold_card = SoldStock.find(self.id)
+            if sold_card.pending_sale_shares != 0
+              rand_shares = rand(1..sold_card.pending_sale_shares)
 
-          rand_shares = rand(1..self.pending_sale_shares)
+              new_sold_shares = sold_card.sold_shares + rand_shares
 
-          new_sold_shares = self.sold_shares + rand_shares
+              new_balance = (sold_card.user.account_balance + (rand_shares.to_i * offered_price.to_i))
 
-          new_balance = (self.user.account_balance + (rand_shares.to_i * offered_price.to_i))
+              sold_card.user.update!(account_balance: new_balance)
 
-          self.user.update(account_balance: new_balance)
+              new_pending_sale_shares = sold_card.pending_sale_shares - rand_shares
 
-          new_pending_sale_shares = self.pending_sale_shares - rand_shares
-
-          self.update(status_id: 1, sold_shares: new_sold_shares, pending_sale_shares: new_pending_sale_shares)
-        end
-       }
-
+              sold_card.update!(status_id: 2, sold_shares: new_sold_shares, pending_sale_shares: new_pending_sale_shares)
+            elsif (sold_card.sold_shares == shares_to_sell.to_i)
+              sold_card.update!(status_id: 1)
+              x.exit
+            else
+              x.exit
+            end
+       end
+      }
   end
+
+
+
+
 end
 
 

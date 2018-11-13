@@ -4,7 +4,7 @@ require 'json'
 
 
 class Stock < ApplicationRecord
-  has_many :owned_stocks
+  has_many :purchased_stocks
   has_many :watchlists
 
 
