@@ -58,7 +58,7 @@ skip_before_action :authenticate_request, only: %i[login register]
       watchlists:  @user.watchlists.map{|watchlist| {
         id: watchlist.id,
         stock: watchlist.stock,
-        # liveStockData: {quote: watchlist.stock.getLiveData}
+        liveStockData: {quote: watchlist.stock.getLiveData}
       }}
     }
   end
