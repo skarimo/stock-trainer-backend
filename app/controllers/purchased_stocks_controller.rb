@@ -19,6 +19,12 @@ class PurchasedStocksController < ApplicationController
     render json: {"stock_card": @purchased_stock_card, "status":@purchased_stock_card.status, "stock": @purchased_stock_card.stock, "new_balance":@new_user_balance}
   end
 
+  def destroy
+    @purchased_stock = PurchasedStock.find(params[:id])
+    @purchased_stock.destroy
+    render json: {message: "task completed"}
+  end
+
   def cancel_purchase
     @purchased_stock = PurchasedStock.find(params[:id])
     @owned_stock_share = OwnedStockShare.find_by(user_id: @purchased_stock.user.id, stock_id: @purchased_stock.stock.id)

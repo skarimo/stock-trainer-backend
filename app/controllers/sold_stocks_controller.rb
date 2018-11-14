@@ -26,7 +26,11 @@ class SoldStocksController < ApplicationController
         render json: @sold_stock_card
   end
 
-
+  def destroy
+    @sold_stock = SoldStock.find(params[:id])
+    @sold_stock.destroy
+    render json: {message: "task completed"}
+  end
 
   def cancel_sale
     @sold_stock = SoldStock.find(params[:id])

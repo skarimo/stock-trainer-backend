@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   post 'add_watchlist', to: 'watchlists#add_watchlist'
   post 'remove_watchlist', to: 'watchlists#remove_watchlist'
 
+  delete 'sold_stocks/:id', to: 'sold_stocks#destroy'
+  delete 'purchased_stocks/:id', to: 'purchased_stocks#destroy'
+
   post 'cancel_sale/:id', to: 'sold_stocks#cancel_sale'
   post 'cancel_purchase/:id', to: 'purchased_stocks#cancel_purchase'
 
