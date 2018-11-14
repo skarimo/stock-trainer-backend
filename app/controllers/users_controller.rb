@@ -20,9 +20,9 @@ skip_before_action :authenticate_request, only: %i[login register]
   def register
     @user = User.create(user_params)
    if @user.save
-    @user.owned_stock_shares.create(stock_id: 331, owned_shares: 10)
-    @user.owned_stock_shares.create(stock_id: 7892, owned_shares: 10)
-    @user.owned_stock_shares.create(stock_id: 5514, owned_shares: 10)
+    # @user.owned_stock_shares.create(stock_id: 331, owned_shares: 10)
+    # @user.owned_stock_shares.create(stock_id: 7892, owned_shares: 10)
+    # @user.owned_stock_shares.create(stock_id: 5514, owned_shares: 10)
     @user.watchlists.create(stock_id: 381)
     @user.watchlists.create(stock_id: 3439)
     @user.watchlists.create(stock_id: 3438)
