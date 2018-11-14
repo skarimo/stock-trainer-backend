@@ -2,9 +2,11 @@ require 'net/http'
 
 class User < ApplicationRecord
    #Validations
-   validates_presence_of :email, :password_digest
+   validates_presence_of :email, :password_digest, :first_name, :last_name
    validates :email, uniqueness: true
+   validates :username, uniqueness: true
    has_secure_password
+   validates :password, length: { minimum: 6, maximum: 15 }, on: :create
 
    has_many :purchased_stocks
    has_many :watchlists
