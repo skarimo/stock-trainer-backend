@@ -15,7 +15,9 @@ http.use_ssl = true
 res = http.get(uri.request_uri)
 parsed_data = JSON.parse(res.body)
   parsed_data.each do |stock|
-    Stock.create(symbol: stock["symbol"], name: stock["name"], date: stock["date"], isEnabled: stock["isEnabled"], stock_type: stock["type"], iexId: stock["iexId"])
+    if stock["isEnabled"] == true
+      Stock.create(symbol: stock["symbol"], name: stock["name"], date: stock["date"], isEnabled: stock["isEnabled"], stock_type: stock["type"], iexId: stock["iexId"])
+    end
   end
 
 Status.create(id: 1, name: "COMPLETED")
