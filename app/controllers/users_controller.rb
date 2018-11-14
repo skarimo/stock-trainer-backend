@@ -41,6 +41,7 @@ skip_before_action :authenticate_request, only: %i[login register]
       account_balance: @user.account_balance,
       purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| {
         id: purchased_stocks.id,
+        created_at: purchased_stocks.created_at,
         owned_shares: purchased_stocks.owned_shares,
         pending_buy_shares: purchased_stocks.pending_buy_shares,
         buy_price: purchased_stocks.buy_price,
@@ -49,6 +50,7 @@ skip_before_action :authenticate_request, only: %i[login register]
       }},
       sold_stocks:  @user.sold_stocks.map{|sold_stock| {
         id: sold_stock.id,
+        created_at: sold_stock.created_at,
         sold_shares: sold_stock.sold_shares,
         pending_sale_shares: sold_stock.pending_sale_shares,
         sale_price: sold_stock.sale_price,
@@ -67,10 +69,11 @@ skip_before_action :authenticate_request, only: %i[login register]
     @user = User.find(params[:id])
     @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock| {
       id: owned_stock.id,
+      created_at: owned_stock.created_at,
       owned_shares: owned_stock.owned_shares,
       avg_buy_price: owned_stock.avg_buy_price,
       stock: owned_stock.stock,
-      # liveStockData: {quote: owned_stock.stock.getLiveData}
+      liveStockData: {quote: owned_stock.stock.getLiveData}
     }}
     render json: @owned_stock_shares
   end
@@ -98,6 +101,7 @@ private
         },
         purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| {
           id: purchased_stocks.id,
+          created_at: purchased_stocks.created_at,
           owned_shares: purchased_stocks.owned_shares,
           pending_buy_shares: purchased_stocks.pending_buy_shares,
           buy_price: purchased_stocks.buy_price,
@@ -106,6 +110,7 @@ private
         }},
         sold_stocks:  @user.sold_stocks.map{|sold_stock| {
           id: sold_stock.id,
+          created_at: sold_stock.created_at,
           sold_shares: sold_stock.sold_shares,
           pending_sale_shares: sold_stock.pending_sale_shares,
           sale_price: sold_stock.sale_price,
@@ -114,6 +119,7 @@ private
         }},
         owned_stock_shares:  @user.owned_stock_shares.map{|owned_stock| {
           id: owned_stock.id,
+          created_at: owned_stock.created_at,
           owned_shares: owned_stock.owned_shares,
           avg_buy_price: owned_stock.avg_buy_price,
           stock: owned_stock.stock,
