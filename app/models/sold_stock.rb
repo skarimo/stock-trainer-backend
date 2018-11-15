@@ -59,27 +59,4 @@ class SoldStock < ApplicationRecord
        end
       }
   end
-
-
-
-
 end
-
-
-  # def buy(volume, stock_current_price, offered_price)
-  #   @random_sleep_time = self.sleep_time_calculator(volume, stock_current_price, offered_price)
-  #   x = Thread.start{
-  #     while self.pending_buy_shares != 0
-  #       rand_time=rand(1..@random_sleep_time)
-  #       rand_shares = rand(1..self.pending_buy_shares)
-  #       sleep(rand_time)
-  #       new_owned_shares = self.owned_shares + rand_shares
-  #       new_pending_buy_shares = self.pending_buy_shares - rand_shares
-  #       new_avg_buy_price = (self.owned_shares * self.buy_price + rand_shares * offered_price.to_f)/new_owned_shares
-  #       self.update(owned_shares: new_owned_shares, pending_buy_shares: new_pending_buy_shares, buy_price: new_avg_buy_price)
-  #     end
-  #     self.update(status_id: 1)
-  #    }
-  # end
-
-# end

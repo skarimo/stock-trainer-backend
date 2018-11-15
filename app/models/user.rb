@@ -17,8 +17,6 @@ class User < ApplicationRecord
    has_many :stocks, through: :watchlists
    has_many :stocks, through: :owned_stock_shares
 
-   # http = Net::HTTP.new("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{purchased_stocks.stock.symbol}&types=quote", 443)
-
   def todays_gain
     balance = self.account_balance
 

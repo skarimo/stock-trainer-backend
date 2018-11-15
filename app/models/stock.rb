@@ -16,7 +16,3 @@ class Stock < ApplicationRecord
   end
 
 end
-
-
-
-# https://api.iextrading.com/1.0/stock/aapl/quote

@@ -35,8 +35,6 @@ skip_before_action :authenticate_request, only: %i[login register]
 
   def update_user_stocks
     @user = User.find(params[:id])
-    # @purchased_stocks = @user.purchased_stocks
-    # @sold_stocks = @user.sold_stocks
     render json: {
       account_balance: @user.account_balance,
       purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| {
@@ -86,9 +84,6 @@ skip_before_action :authenticate_request, only: %i[login register]
 
 
 private
-
-# user: {account_balance: @user.account_balance, email: @user.email, first_name: @user.first_name, id: @user.id, last_name: @user.last_name, purchased_stocks: @user.purchased_stocks, username: @user.username, watchlists: @user.watchlists}
-
 
   def authenticate(username, password)
     command = AuthenticateUser.call(username, password)

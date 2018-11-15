@@ -15,7 +15,6 @@ class PurchasedStocksController < ApplicationController
     @purchased_stock_card.buy(@liveData["latestVolume"], @liveData["latestPrice"], params["share_price"], params["shares_amount"])
     #---------------------------------------
 
-    # @return_data = {@purchased_stock_card, liveStockData:{quote: p}}
     render json: {"stock_card": @purchased_stock_card, "status":@purchased_stock_card.status, "stock": @purchased_stock_card.stock, "new_balance":@new_user_balance}
   end
 
