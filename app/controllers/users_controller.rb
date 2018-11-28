@@ -37,24 +37,8 @@ skip_before_action :authenticate_request, only: %i[login register]
     @user = User.find(params[:id])
     render json: {
       account_balance: @user.account_balance,
-      purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| {
-        id: purchased_stocks.id,
-        created_at: purchased_stocks.created_at,
-        owned_shares: purchased_stocks.owned_shares,
-        pending_buy_shares: purchased_stocks.pending_buy_shares,
-        buy_price: purchased_stocks.buy_price,
-        status: purchased_stocks.status,
-        stock: purchased_stocks.stock
-      }},
-      sold_stocks:  @user.sold_stocks.map{|sold_stock| {
-        id: sold_stock.id,
-        created_at: sold_stock.created_at,
-        sold_shares: sold_stock.sold_shares,
-        pending_sale_shares: sold_stock.pending_sale_shares,
-        sale_price: sold_stock.sale_price,
-        status: sold_stock.status,
-        stock: sold_stock.stock
-      }},
+      purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
+      sold_stocks:  @user.sold_stocks.map{|purchased_stocks| SoldStockSerializer.new(purchased_stocks)},
       watchlists:  @user.watchlists.map{|watchlist| {
         id: watchlist.id,
         stock: watchlist.stock,
@@ -65,14 +49,7 @@ skip_before_action :authenticate_request, only: %i[login register]
 
   def update_owned
     @user = User.find(params[:id])
-    @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock| {
-      id: owned_stock.id,
-      created_at: owned_stock.created_at,
-      owned_shares: owned_stock.owned_shares,
-      avg_buy_price: owned_stock.avg_buy_price,
-      stock: owned_stock.stock,
-      liveStockData: {quote: owned_stock.stock.getLiveData}
-    }}
+    @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)}
     render json: @owned_stock_shares
   end
 
@@ -94,37 +71,10 @@ private
         user: {account_balance: @user.account_balance, email: @user.email, first_name: @user.first_name, id: @user.id,  username: @user.username, last_name: @user.last_name,
           watchlists: @user.watchlists.map{|stock| {id: stock.id, stock: stock}
         },
-        purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| {
-          id: purchased_stocks.id,
-          created_at: purchased_stocks.created_at,
-          owned_shares: purchased_stocks.owned_shares,
-          pending_buy_shares: purchased_stocks.pending_buy_shares,
-          buy_price: purchased_stocks.buy_price,
-          status: purchased_stocks.status,
-          stock: purchased_stocks.stock
-        }},
-        sold_stocks:  @user.sold_stocks.map{|sold_stock| {
-          id: sold_stock.id,
-          created_at: sold_stock.created_at,
-          sold_shares: sold_stock.sold_shares,
-          pending_sale_shares: sold_stock.pending_sale_shares,
-          sale_price: sold_stock.sale_price,
-          status: sold_stock.status,
-          stock: sold_stock.stock
-        }},
-        owned_stock_shares:  @user.owned_stock_shares.map{|owned_stock| {
-          id: owned_stock.id,
-          created_at: owned_stock.created_at,
-          owned_shares: owned_stock.owned_shares,
-          avg_buy_price: owned_stock.avg_buy_price,
-          stock: owned_stock.stock,
-          liveStockData: {quote: owned_stock.stock.getLiveData}
-        }},
-        watchlists:  @user.watchlists.map{|watchlist| {
-          id: watchlist.id,
-          stock: watchlist.stock,
-          liveStockData: {quote: watchlist.stock.getLiveData}
-        }}
+        purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
+        sold_stocks:  @user.sold_stocks.map{|sold_stock| SoldStockSerializer.new(sold_stock)},
+        owned_stock_shares:  @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)},
+        watchlists:  @user.watchlists.map{|watchlist| WatchlistSerializer.new(watchlist)}
       }
     }
     else

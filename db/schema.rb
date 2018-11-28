@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 2018_11_12_001827) do
     t.integer "pending_sale_shares", default: 0
     t.decimal "sale_price", precision: 40, scale: 4, default: "0.0"
     t.integer "status_id"
-    t.string "threads", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

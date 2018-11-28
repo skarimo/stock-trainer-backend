@@ -50,9 +50,9 @@ class PurchasedStock < ApplicationRecord
 
           elsif purchased_stock_card.owned_shares == shares_amount.to_i
             purchased_stock_card.update!(status_id: 1)
-            x.exit
+            x.kill
           else
-            x.exit
+            x.kill
           end
       end
      }

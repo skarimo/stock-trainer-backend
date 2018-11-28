@@ -52,9 +52,9 @@ class SoldStock < ApplicationRecord
               sold_card.update!(status_id: 2, sold_shares: new_sold_shares, pending_sale_shares: new_pending_sale_shares)
             elsif (sold_card.sold_shares == shares_to_sell.to_i)
               sold_card.update!(status_id: 1)
-              x.exit
+              x.kill
             else
-              x.exit
+              x.kill
             end
        end
       }
