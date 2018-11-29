@@ -37,17 +37,18 @@ skip_before_action :authenticate_request, only: %i[login register]
     @user = User.find(params[:id])
     render json: {
       account_balance: @user.account_balance,
-      purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
-      sold_stocks:  @user.sold_stocks.map{|purchased_stocks| SoldStockSerializer.new(purchased_stocks)},
-      watchlists:  @user.watchlists.map{|watchlist| WatchlistSerializer.new(watchlist)}
+      purchased_stocks: @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
+      sold_stocks: @user.sold_stocks.map{|purchased_stocks| SoldStockSerializer.new(purchased_stocks)},
+      watchlists: @user.watchlists.map{|watchlist| WatchlistSerializer.new(watchlist)},
+      owned_stock_shares: @user.owned_stock_shares.map{|owned_stock| OwnedStockShareSerializer.new(owned_stock)}
     }
   end
 
-  def update_owned
-    @user = User.find(params[:id])
-    @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)}
-    render json: @owned_stock_shares
-  end
+  # def update_owned
+  #   @user = User.find(params[:id])
+  #   @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)}
+  #   render json: @owned_stock_shares
+  # end
 
   def authorize_token
     @user_id = JsonWebToken.decode(request.headers["Authorization"])["user_id"]

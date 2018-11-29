@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  resources :owned_stock_shares
-  # resources :statuses
-  # resources :sold_stocks
-  # resources :watchlists
-  # resources :purchased_stocks
   namespace :api do
     namespace :v1 do
         post '/search', to: 'stocks#search_stock'
@@ -30,12 +25,7 @@ Rails.application.routes.draw do
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
   get 'update_user_stocks/:id', to: 'users#update_user_stocks'
-  get 'update_owned/:id', to: 'users#update_owned'
+  # get 'update_owned/:id', to: 'users#update_owned'
 
-  # /api/v1/stocks/search
-  # post '/api/v1/stocks/search', to: 'stocks#search_stock'
 
 end
-
-
-# search_stock
