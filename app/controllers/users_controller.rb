@@ -39,11 +39,7 @@ skip_before_action :authenticate_request, only: %i[login register]
       account_balance: @user.account_balance,
       purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
       sold_stocks:  @user.sold_stocks.map{|purchased_stocks| SoldStockSerializer.new(purchased_stocks)},
-      watchlists:  @user.watchlists.map{|watchlist| {
-        id: watchlist.id,
-        stock: watchlist.stock,
-        liveStockData: {quote: watchlist.stock.getLiveData}
-      }}
+      watchlists:  @user.watchlists.map{|watchlist| WatchlistSerializer.new(watchlist)}
     }
   end
 
@@ -68,14 +64,11 @@ private
       @user = User.find(JsonWebToken.decode(command.result)["user_id"])
       render json: {
         access_token: command.result,
-        user: {account_balance: @user.account_balance, email: @user.email, first_name: @user.first_name, id: @user.id,  username: @user.username, last_name: @user.last_name,
-          watchlists: @user.watchlists.map{|stock| {id: stock.id, stock: stock}
-        },
+        user: UserSerializer.new(@user),
         purchased_stocks:  @user.purchased_stocks.map{|purchased_stocks| PurchasedStockSerializer.new(purchased_stocks)},
         sold_stocks:  @user.sold_stocks.map{|sold_stock| SoldStockSerializer.new(sold_stock)},
         owned_stock_shares:  @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)},
         watchlists:  @user.watchlists.map{|watchlist| WatchlistSerializer.new(watchlist)}
-      }
     }
     else
       render json: { error: command.errors }, status: :unauthorized
