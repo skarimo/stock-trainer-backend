@@ -43,7 +43,7 @@ class SoldStock < ApplicationRecord
 
               new_sold_shares = sold_card.sold_shares + rand_shares
 
-              new_balance = (sold_card.user.account_balance + (rand_shares.to_i * offered_price.to_i))
+              new_balance = (sold_card.user.account_balance + (rand_shares.to_i * offered_price.to_f))
 
               sold_card.user.update!(account_balance: new_balance)
 
