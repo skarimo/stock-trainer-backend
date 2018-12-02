@@ -1,3 +1,3 @@
 class OwnedStockShareSerializer < ActiveModel::Serializer
-  attributes :id, :owned_shares, :avg_buy_price, :stock
+  attributes :id,:user_id, :owned_shares, :avg_buy_price, :stock
 end

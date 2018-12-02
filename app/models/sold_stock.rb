@@ -28,6 +28,9 @@ class SoldStock < ApplicationRecord
     @random_sleep_time = self.sleep_time_calculator(volume, stock_current_price, offered_price)
     @owned_stock_share = OwnedStockShare.find_or_initialize_by(user_id: self.user.id, stock_id: self.stock.id)
     self.update(sale_price: offered_price.to_f)
+    sold_stock = SoldStock.find(self.id)
+    stock_broadcast("UPDATED", sold_stock, "SOLD_STOCKS")
+
       x = Thread.new {
         while self.pending_sale_shares != 0
             if @random_sleep_time > 1
@@ -50,8 +53,11 @@ class SoldStock < ApplicationRecord
               new_pending_sale_shares = sold_card.pending_sale_shares - rand_shares
 
               sold_card.update!(status_id: 2, sold_shares: new_sold_shares, pending_sale_shares: new_pending_sale_shares)
+              stock_broadcast("UPDATED", sold_card, "SOLD_STOCKS")
+
             elsif (sold_card.sold_shares == shares_to_sell.to_i)
               sold_card.update!(status_id: 1)
+              stock_broadcast("UPDATED", sold_card, "SOLD_STOCKS")
               x.kill
             else
               x.kill

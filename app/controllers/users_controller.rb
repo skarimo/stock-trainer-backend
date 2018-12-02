@@ -11,6 +11,7 @@ skip_before_action :authenticate_request, only: %i[login register]
   end
 
   def add_balance
+    stock_broadcast("test_action", {stock: "stock"}, "TEST_LOCATION")
     @user = User.find(params[:user_id])
     @new_account_balance = @user.account_balance.to_f + params[:deposit_amount].to_f
     @user.update(account_balance: @new_account_balance)

@@ -31,10 +31,13 @@ class PurchasedStocksController < ApplicationController
         @new_balance = (@purchased_stock.buy_price * @purchased_stock.pending_buy_shares) + @purchased_stock.user.account_balance
         @purchased_stock.user.update(account_balance: @new_balance)
         @purchased_stock.update!(status_id: 3, pending_buy_shares: 0)
+        stock_broadcast("UPDATED", @purchased_stock, "PURCHASED_STOCKS")
       else
         @purchased_stock.update!(status_id: 1)
+        stock_broadcast("UPDATED", @purchased_stock, "PURCHASED_STOCKS")
       end
       if @owned_stock_share.owned_shares == 0
+        stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
         @owned_stock_share.destroy
       end
 

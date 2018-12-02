@@ -25,7 +25,14 @@ class PurchasedStock < ApplicationRecord
 
   def buy(volume, stock_current_price, offered_price, shares_amount)
     @random_sleep_time = self.sleep_time_calculator(volume, stock_current_price, offered_price)
-    @owned_stock_share = OwnedStockShare.find_or_create_by(stock_id: self.stock.id, user_id: self.user.id)
+
+    @owned_stock_share = OwnedStockShare.find_by(stock_id: self.stock.id, user_id: self.user.id)
+      if !@owned_stock_share
+        @owned_stock_share = OwnedStockShare.create!(stock_id: self.stock.id, user_id: self.user.id)
+
+        stock_broadcast("CREATED", @owned_stock_share, "OWNED_STOCK_SHARES")
+      end
+
     x = Thread.new{
       while self.pending_buy_shares != 0
         if @random_sleep_time > 1
@@ -47,9 +54,12 @@ class PurchasedStock < ApplicationRecord
 
             @owned_stock_share.update(owned_shares: @new_owned_shares, avg_buy_price: @new_avg_buy_price)
             purchased_stock_card.update(owned_shares: new_purchased_shares, pending_buy_shares: new_pending_buy_shares)
+            stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
+            stock_broadcast("UPDATED", purchased_stock_card, "PURCHASED_STOCKS")
 
           elsif purchased_stock_card.owned_shares == shares_amount.to_i
             purchased_stock_card.update!(status_id: 1)
+            stock_broadcast("UPDATED", purchased_stock_card, "PURCHASED_STOCKS")
             x.kill
           else
             x.kill
