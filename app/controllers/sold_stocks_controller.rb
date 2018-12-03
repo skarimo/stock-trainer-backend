@@ -14,11 +14,6 @@ class SoldStocksController < ApplicationController
     @owned_stock_share.update(owned_shares: @new_owned_shares)
     stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
 
-    if @owned_stock_share.owned_shares == 0
-      stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
-      @owned_stock_share.destroy
-    end
-
     @new_pending_sale_shares = @sold_stock_card.pending_sale_shares.to_i + params["shares_amount"].to_i
     @sold_stock_card.update(status_id: 2, pending_sale_shares: @new_pending_sale_shares)
     @sold_stock_card.save
@@ -41,10 +36,6 @@ class SoldStocksController < ApplicationController
         @owned_stock_share.update(owned_shares: @new_owned_shares)
         stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
 
-        if @owned_stock_share.owned_shares == 0 
-          stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
-          @owned_stock_share.destroy
-        end
         @sold_stock.update!(status_id: 3, pending_sale_shares: 0)
         stock_broadcast("UPDATED", @sold_stock, "SOLD_STOCKS")
       else

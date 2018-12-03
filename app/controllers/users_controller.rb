@@ -20,9 +20,6 @@ skip_before_action :authenticate_request, only: %i[login register]
   def register
     @user = User.create(user_params)
    if @user.save
-    # @user.owned_stock_shares.create(stock_id: 331, owned_shares: 10)
-    # @user.owned_stock_shares.create(stock_id: 7892, owned_shares: 10)
-    # @user.owned_stock_shares.create(stock_id: 5514, owned_shares: 10)
     @user.watchlists.create(stock_id: 381)
     @user.watchlists.create(stock_id: 3439)
     @user.watchlists.create(stock_id: 3438)
@@ -43,12 +40,6 @@ skip_before_action :authenticate_request, only: %i[login register]
       owned_stock_shares: @user.owned_stock_shares.map{|owned_stock| OwnedStockShareSerializer.new(owned_stock)}
     }
   end
-
-  # def update_owned
-  #   @user = User.find(params[:id])
-  #   @owned_stock_shares = @user.owned_stock_shares.map{|owned_stock_share| OwnedStockShareSerializer.new(owned_stock_share)}
-  #   render json: @owned_stock_shares
-  # end
 
   def authorize_token
     @user_id = JsonWebToken.decode(request.headers["Authorization"])["user_id"]
@@ -78,10 +69,6 @@ private
 
   def user_params
     params.permit(:username, :email, :password, :first_name, :last_name, :category_id, :account_balance)
-  end
-
-  def bill_share_params
-    params.permit(:user_id, :friend_id)
   end
 
   def token_params

@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   get 'users/:id', to: 'users#show'
   get 'authorize_token', to: 'users#authorize_token'
   get 'update_user_stocks/:id', to: 'users#update_user_stocks'
-  # get 'update_owned/:id', to: 'users#update_owned'
 
   #action Cable
   mount ActionCable.server => '/cable'

@@ -59,6 +59,10 @@ class SoldStock < ApplicationRecord
             elsif (sold_card.sold_shares == shares_to_sell.to_i)
               sold_card.update!(status_id: 1)
               stock_broadcast("UPDATED", sold_card, "SOLD_STOCKS")
+              if @owned_stock_share.owned_shares == 0 
+                stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
+                @owned_stock_share.destroy
+              end
               x.kill
             else
               x.kill

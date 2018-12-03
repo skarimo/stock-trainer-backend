@@ -17,15 +17,3 @@ module ApplicationCable
       end
   end
 end
-
-
-#     identified_by :current_user
-#
-#     def connect
-#       @user_id = JsonWebToken.decode(request.headers["Authorization"])["user_id"]
-#       @user = User.find(@user_id)
-#       self.current_user = @user
-#     end
-#
-#   end
-# end
