@@ -48,7 +48,7 @@ class PurchasedStock < ApplicationRecord
             new_purchased_shares = purchased_stock_card.owned_shares + rand_shares.to_i
             new_pending_buy_shares = purchased_stock_card.pending_buy_shares - rand_shares
 
-            @new_avg_buy_price = (@owned_stock_share.owned_shares * @owned_stock_share.avg_buy_price + rand_shares * offered_price.to_f)/new_purchased_shares
+            @new_avg_buy_price = (@owned_stock_share.owned_shares * @owned_stock_share.avg_buy_price + rand_shares * offered_price.to_f)/(rand_shares + @owned_stock_share.owned_shares)
 
             @new_owned_shares = rand_shares + @owned_stock_share.owned_shares
 

@@ -12,7 +12,11 @@ class ApplicationRecord < ActiveRecord::Base
 
     ActionCable.server.broadcast \
   "stocks_channel_#{stock_card.user.id}", {action: action, stock: @stock_card, location: location}
-
-
   end
+
+  def user_balance_broadcast(action, user_id, amount)
+    ActionCable.server.broadcast \
+  "stocks_channel_#{user_id}", {action: action, account_balance: amount}
+  end
+
 end

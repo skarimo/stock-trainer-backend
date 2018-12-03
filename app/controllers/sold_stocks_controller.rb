@@ -23,8 +23,6 @@ class SoldStocksController < ApplicationController
     @sold_stock_card.update(status_id: 2, pending_sale_shares: @new_pending_sale_shares)
     @sold_stock_card.save
     @sold_stock_card.sell(@owned_stock_share.id, @liveData["latestVolume"], @liveData["latestPrice"], params["share_price"], params["shares_amount"])
-
-    @new_user_balance = @user.account_balance
         render json: @sold_stock_card
   end
 
@@ -43,7 +41,7 @@ class SoldStocksController < ApplicationController
         @owned_stock_share.update(owned_shares: @new_owned_shares)
         stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
 
-        if @owned_stock_share.owned_shares == 0
+        if @owned_stock_share.owned_shares == 0 
           stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
           @owned_stock_share.destroy
         end
