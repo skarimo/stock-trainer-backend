@@ -1,6 +1,8 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.web_socket_server_url = "wss://stock-trainer-backend.herokuapp.com/cable" 
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
