@@ -1,8 +1,8 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.web_socket_server_url = "ws://stock-trainer-backend.herokuapp.com/cable"
-  config.action_cable.allowed_request_origins = ['https://stock-trainer-backend.herokuapp.com', 'http://stock-trainer-backend.herokuapp.com']
+  config.web_socket_server_url = "wss://stock-trainer-backend.herokuapp.com/cable"
+  config.action_cable.allowed_request_origins = ['https://stock-trainer-backend.herokuapp.com/cable', 'http://stock-trainer-backend.herokuapp.com/cable']
 
   # Code is not reloaded between requests.
   config.cache_classes = true
