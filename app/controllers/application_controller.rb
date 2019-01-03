@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
+  #authenticates api requests using the headers of the request
     before_action :authenticate_request
     attr_reader :current_user
 
     include ExceptionHandler
 
     def stock_broadcast(action, stock_card, location)
+      #checks the location of the broadcasted stock and serializes it appropriately
       if location == "OWNED_STOCK_SHARES"
         @stock_card = OwnedStockShareSerializer.new(OwnedStockShare.find(stock_card.id))
       elsif location == "PURCHASED_STOCKS"

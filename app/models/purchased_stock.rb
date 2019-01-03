@@ -62,6 +62,7 @@ class PurchasedStock < ApplicationRecord
             stock_broadcast("UPDATED", purchased_stock_card, "PURCHASED_STOCKS")
             x.kill
           else
+            stock_broadcast("UPDATED", purchased_stock_card, "PURCHASED_STOCKS")
             x.kill
           end
       end
