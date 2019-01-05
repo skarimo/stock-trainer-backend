@@ -20,8 +20,7 @@ class WatchlistsController < ApplicationController
     @user = User.find(params["user_id"])
     @stock = Stock.find_by(symbol: params["stock_symbol"])
     @user.watchlists.find_by(stock_id: @stock.id).destroy
-
-        render json: {"deleted": true}
+      render json: {"deleted": true}
   end
 
 end
