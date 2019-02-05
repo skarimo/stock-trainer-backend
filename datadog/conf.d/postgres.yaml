@@ -1,9 +1,0 @@
-init_config:
-
-instances:
-  - host: localhost
-    port: 5432
-    username: smfeiifkqpbwwj
-    password: f63902eb2998b754c81fa89f472a8b709854b95bdd3c7f3794054ac5feb49f2c
-    dbname: d56q9oospoi7fh
-    ssl: True
