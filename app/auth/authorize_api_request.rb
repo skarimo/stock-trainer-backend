@@ -1,4 +1,5 @@
 class AuthorizeApiRequest
+  #Simple Command creates services easily, fascilitates connection between controller and model
   prepend SimpleCommand
 
   def initialize(headers = {})

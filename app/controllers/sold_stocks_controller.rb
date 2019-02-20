@@ -2,23 +2,19 @@ class SoldStocksController < ApplicationController
 
   def sell_stock
     @user = User.find(params[:user_id])
-
     @stock = Stock.find_by(symbol: params[:symbol])
-
     @liveData = @stock.getLiveData
-
     @owned_stock_share = @user.owned_stock_shares.find_by(stock_id: @stock.id)
     @sold_stock_card = @user.sold_stocks.new(stock_id: @stock.id)
-
     @new_owned_shares = (@owned_stock_share.owned_shares - params["shares_amount"].to_i)
     @owned_stock_share.update(owned_shares: @new_owned_shares)
     stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
-
     @new_pending_sale_shares = @sold_stock_card.pending_sale_shares.to_i + params["shares_amount"].to_i
     @sold_stock_card.update(status_id: 2, pending_sale_shares: @new_pending_sale_shares)
     @sold_stock_card.save
     @sold_stock_card.sell(@owned_stock_share.id, @liveData["latestVolume"], @liveData["latestPrice"], params["share_price"], params["shares_amount"])
-        render json: @sold_stock_card
+
+    render json: @sold_stock_card
   end
 
   def destroy
@@ -30,12 +26,10 @@ class SoldStocksController < ApplicationController
   def cancel_sale
     @sold_stock = SoldStock.find(params[:id])
     @owned_stock_share = OwnedStockShare.find_or_initialize_by(user_id: @sold_stock.user.id, stock_id: @sold_stock.stock.id)
-
       if @sold_stock.pending_sale_shares != 0
         @new_owned_shares = @sold_stock.pending_sale_shares + @owned_stock_share.owned_shares
         @owned_stock_share.update(owned_shares: @new_owned_shares)
         stock_broadcast("UPDATED", @owned_stock_share, "OWNED_STOCK_SHARES")
-
         @sold_stock.update!(status_id: 3, pending_sale_shares: 0)
         stock_broadcast("UPDATED", @sold_stock, "SOLD_STOCKS")
       else

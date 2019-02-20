@@ -7,9 +7,7 @@ class SoldStock < ApplicationRecord
     #(sleep_volume, price_diff)
     v1 = stock_current_price.to_f
     v2 = offered_price.to_f
-
     price_diff = (v2 - v1)/((v2+v1)/2).to_f
-
     if price_diff < 0
       price_diff_sleep_time = (0.1 / price_diff).abs
     elsif price_diff > 0
@@ -17,9 +15,7 @@ class SoldStock < ApplicationRecord
     else
       price_diff_sleep_time = rand(1..40)
     end
-
     volume_sleep_time = 10000/volume.to_f
-
     return (price_diff_sleep_time + volume_sleep_time)
   end
 
@@ -42,24 +38,19 @@ class SoldStock < ApplicationRecord
           sleep(rand_time)
           sold_card = SoldStock.find(self.id)
             if sold_card.pending_sale_shares != 0
+              #generate random shares
               rand_shares = rand(1..sold_card.pending_sale_shares)
-
               new_sold_shares = sold_card.sold_shares + rand_shares
-
               new_balance = (sold_card.user.account_balance + (rand_shares.to_i * offered_price.to_f))
-
               sold_card.user.update!(account_balance: new_balance)
               user_balance_broadcast("UPDATE_BALANCE", sold_card.user.id, new_balance)
-
               new_pending_sale_shares = sold_card.pending_sale_shares - rand_shares
-
               sold_card.update!(status_id: 2, sold_shares: new_sold_shares, pending_sale_shares: new_pending_sale_shares)
               stock_broadcast("UPDATED", sold_card, "SOLD_STOCKS")
-
             elsif (sold_card.sold_shares == shares_to_sell.to_i)
               sold_card.update!(status_id: 1)
               stock_broadcast("UPDATED", sold_card, "SOLD_STOCKS")
-              if @owned_stock_share.owned_shares == 0 
+              if @owned_stock_share.owned_shares == 0
                 stock_broadcast("DESTROYED", @owned_stock_share, "OWNED_STOCK_SHARES")
                 @owned_stock_share.destroy
               end

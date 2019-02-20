@@ -1,4 +1,5 @@
 class AuthenticateUser
+  #Simple Command creates services easily, fascilitates connection between controller and model
   prepend SimpleCommand
   attr_accessor :username, :password
 

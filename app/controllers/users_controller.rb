@@ -5,11 +5,6 @@ skip_before_action :authenticate_request, only: %i[login register]
     authenticate(params["username"], params["password"])
   end
 
-  def show
-    @user = User.find(params[:id])
-    render json: @user
-  end
-
   def add_balance
     @user = User.find(params[:user_id])
     @new_account_balance = @user.account_balance.to_f + params[:deposit_amount].to_f

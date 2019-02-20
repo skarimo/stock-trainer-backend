@@ -17,16 +17,4 @@ class User < ApplicationRecord
    has_many :stocks, through: :watchlists
    has_many :stocks, through: :owned_stock_shares
 
-  def todays_gain
-    balance = self.account_balance
-
-    self.purchased_stocks.each do |purchased_stocks|
-      url = URI.("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{purchased_stocks.stock.symbol}&types=quote").read
-      uri = URI(url)
-      req = Net::HTTP::Get.new(uri)
-      res = Net::HTTP.start(uri.hostname, uri.port) {|http|http.request(req)}
-      parsed_data = JSON.parse(res.body)
-    end
-
-  end
 end
